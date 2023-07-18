@@ -338,8 +338,7 @@ def main(
                             torch.save(ddim_inv_latent, inv_latents_path)
 
                         for idx, prompt in enumerate(validation_data.prompts):
-                            sample = validation_pipeline(prompt, generator=generator, latents=ddim_inv_latent,
-                                                         **validation_data).videos
+                            sample = validation_pipeline(prompt, generator=generator, latents=ddim_inv_latent, video_length=video_length, **validation_data).videos
                             save_videos_grid(sample, f"{output_dir}/samples/sample-{global_step}/{idx}.gif")
                             samples.append(sample)
                         samples = torch.concat(samples)

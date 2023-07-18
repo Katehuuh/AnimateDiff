@@ -1,0 +1,44 @@
+pretrained_model_path: "models/StableDiffusion/stable-diffusion-v1-5"
+output_dir: "output/output"
+
+train_data:
+  video_path: "output/dataset/video.mp4"
+  prompt: "buses passing by the park"
+  width: 512
+  height: 512
+  n_sample_frames: 8
+  sample_start_idx: 0
+  sample_frame_rate: 1
+
+validation_data:
+  prompts:
+    - "validation_prompt_1"
+    - "validation_prompt_2"
+  num_inv_steps: 10
+  use_inv_latent: true
+
+trainable_modules:
+  - "to_q"
+
+train_batch_size: 4
+max_train_steps: 1000
+learning_rate: 3e-5
+scale_lr: false
+lr_scheduler: "constant"
+lr_warmup_steps: 0
+adam_beta1: 0.9
+adam_beta2: 0.999
+adam_weight_decay: 1e-2
+adam_epsilon: 1e-08
+max_grad_norm: 1.0
+gradient_accumulation_steps: 1
+gradient_checkpointing: true
+checkpointing_steps: 500
+resume_from_checkpoint: null
+mixed_precision: "fp16"
+use_8bit_adam: false
+enable_xformers_memory_efficient_attention: true
+seed: 1234
+
+motion_module: "models/Motion_Module/mm_sd_v15.ckpt"
+inference_config_path: "configs/inference/inference.yaml"

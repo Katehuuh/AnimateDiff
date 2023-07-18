@@ -32,13 +32,14 @@ class TuneAVideoDataset(Dataset):
     def __getitem__(self, index):
         # load and sample video frames
         vr = decord.VideoReader(self.video_path, width=self.width, height=self.height)
-        sample_index = list(range(self.sample_start_idx, len(vr), self.sample_frame_rate))[:self.n_sample_frames]
+        video_length = len(vr)
+        sample_index = list(range(self.sample_start_idx, video_length, self.sample_frame_rate))[:self.n_sample_frames]
         video = vr.get_batch(sample_index)
         video = rearrange(video, "f h w c -> f c h w")
-
+        
         example = {
             "pixel_values": (video / 127.5 - 1.0),
-            "prompt_ids": self.prompt_ids
+            "prompt_ids": self.prompt_ids,
         }
 
         return example
